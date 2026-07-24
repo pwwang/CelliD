@@ -17,10 +17,10 @@
 #' @param nmcs number of components to compute and store, default set to 30
 #' @param features character vector of feature names. If not specified all features will be taken.
 #' @param reduction.name name of the reduction default set to 'MCA' for SingleCellExperiment and mca
-#' @param slot Which slot to pull expression data from? Default to logcounts for SingleCellExperiment and data for Seurat.
+#' @param layer Which layer to pull expression data from? Default to logcounts for SingleCellExperiment and data for Seurat.
 #' @param ... other aruments passed to methods
 #'
-#' @return Seurat or SCE object with MCA calculation stored in the reductions slot.
+#' @return Seurat or SCE object with MCA calculation stored in the reductions layer.
 #' @importClassesFrom Seurat Seurat
 #' @importClassesFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom SummarizedExperiment assay
@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' seuratPbmc <- RunMCA(seuratPbmc, nmcs = 5)
-RunMCA <- function(X, nmcs, features, reduction.name, slot, ...) {
+RunMCA <- function(X, nmcs, features, reduction.name, layer, ...) {
     UseMethod("RunMCA", X)
 }
 
@@ -71,10 +71,10 @@ RunMCA.matrix <- function(X, nmcs = 50, features = NULL, reduction.name = "MCA",
 #' @rdname RunMCA
 #' @param assay Name of Assay MCA is being run on
 #' @export
-RunMCA.Seurat <- function(X, nmcs = 50, features = NULL, reduction.name = "mca", slot = "data", assay = DefaultAssay(X), ...) {
+RunMCA.Seurat <- function(X, nmcs = 50, features = NULL, reduction.name = "mca", layer = "data", assay = DefaultAssay(X), ...) {
     InitAssay <- DefaultAssay(X)
     DefaultAssay(X) <- assay
-    data_matrix <- as.matrix(GetAssayData(X, slot = slot))
+    data_matrix <- as.matrix(GetAssayData(X, layer = layer))
     MCA <- RunMCA(X = data_matrix, nmcs = nmcs, features = features)
     geneEmb <- MCA$featuresCoordinates
     cellEmb <- MCA$cellsCoordinates
@@ -86,8 +86,8 @@ RunMCA.Seurat <- function(X, nmcs = 50, features = NULL, reduction.name = "mca",
 
 #' @rdname RunMCA
 #' @export
-RunMCA.SingleCellExperiment <- function(X, nmcs = 50, features = NULL, reduction.name = "MCA", slot = "logcounts", ...) {
-    data_matrix <- as.matrix(SummarizedExperiment::assay(X, slot))
+RunMCA.SingleCellExperiment <- function(X, nmcs = 50, features = NULL, reduction.name = "MCA", layer = "logcounts", ...) {
+    data_matrix <- as.matrix(SummarizedExperiment::assay(X, layer))
     MCA <- RunMCA(X = data_matrix, nmcs = nmcs, features = features, reduction.name = reduction.name)
     geneEmb <- MCA$featuresCoordinates
     cellEmb <- MCA$cellsCoordinates
@@ -111,13 +111,13 @@ RunMCA.SingleCellExperiment <- function(X, nmcs = 50, features = NULL, reduction
 #' @param reduction.name name of the created dimensionlaity reduction, default set to 'mca' for Seurat and 'MCA' for SCE.
 #' @param ... other arguments passed to methods
 #'
-#' @return Seurat or SingleCellExperiment object with MC stored in the reduction slot
+#' @return Seurat or SingleCellExperiment object with MC stored in the reduction layer
 setDimMCSlot <- function(X, cellEmb, geneEmb, stdev, reduction.name, ...) {
     UseMethod("setDimMCSlot", X)
 }
 
 #' @rdname setDimMCSlot
-#' @param assay Seurat assay slot
+#' @param assay Seurat assay layer
 setDimMCSlot.Seurat <- function(X, cellEmb, geneEmb, stdev = NULL, reduction.name = "mca", assay = DefaultAssay(X), ...) {
     colnames(cellEmb) <- paste0(reduction.name, "_", seq(ncol(cellEmb)))
     colnames(geneEmb) <- paste0(reduction.name, "_", seq(ncol(geneEmb)))
