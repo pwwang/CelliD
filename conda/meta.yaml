@@ -1,0 +1,72 @@
+package:
+  name: r-cellid
+  version: 2.0.0
+
+source:
+  path: ..
+
+build:
+  number: 2
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  host:
+    # Imports
+    - r-base
+    - r-rcpp
+    - r-rcpparmadillo
+    - r-matrix
+    - r-tictoc
+    - r-stringr
+    - r-irlba
+    - r-data.table
+    - r-glue
+    - r-pbapply
+    - r-umap
+    - r-rtsne
+    - r-reticulate
+    - r-fastmatch
+    - r-matrixstats
+    - r-ggplot2
+    - r-seurat
+    - bioconductor-scater
+    - bioconductor-biocparallel
+    - bioconductor-summarizedexperiment
+    - bioconductor-fgsea
+
+  run:
+    # Imports
+    - r-base
+    - r-rcpp
+    - r-rcpparmadillo
+    - r-matrix
+    - r-tictoc
+    - r-stringr
+    - r-irlba
+    - r-data.table
+    - r-glue
+    - r-pbapply
+    - r-umap
+    - r-rtsne
+    - r-reticulate
+    - r-fastmatch
+    - r-matrixstats
+    - r-ggplot2
+    - r-seurat
+    - bioconductor-scater
+    - bioconductor-biocparallel
+    - bioconductor-summarizedexperiment
+    - bioconductor-fgsea
+
+test:
+  commands:
+    - $R -e "library(CelliD);"
+
+about:
+  home: https://github.com/pwwang/CelliD
+  license: GPL-3
+  summary: CelliD is an R package for unbiased extraction of single cell gene signatures using Multiple Correspondence Analysis.
+  license_family: GPL
+  license_file: LICENSE
