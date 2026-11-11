@@ -6,7 +6,7 @@ source:
   path: ..
 
 build:
-  number: 2
+  number: 3
   rpaths:
     - lib/R/lib/
     - lib/
@@ -33,7 +33,7 @@ requirements:
     - r-seurat
     - bioconductor-scater
     - bioconductor-biocparallel
-    - bioconductor-summarizedexperiment
+    - bioconductor-summarizedexperiment=1.40
     - pwwang::bioconductor-fgsea
 
   run:
@@ -57,7 +57,7 @@ requirements:
     - r-seurat
     - bioconductor-scater
     - bioconductor-biocparallel
-    - bioconductor-summarizedexperiment
+    - bioconductor-summarizedexperiment=1.40
     - pwwang::bioconductor-fgsea
 
 test:
