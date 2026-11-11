@@ -34,7 +34,7 @@ requirements:
     - bioconductor-scater
     - bioconductor-biocparallel
     - bioconductor-summarizedexperiment
-    - bioconductor-fgsea
+    - pwwang::bioconductor-fgsea
 
   run:
     # Imports
@@ -58,7 +58,7 @@ requirements:
     - bioconductor-scater
     - bioconductor-biocparallel
     - bioconductor-summarizedexperiment
-    - bioconductor-fgsea
+    - pwwang::bioconductor-fgsea
 
 test:
   commands:
